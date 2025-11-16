@@ -3,8 +3,11 @@
 #include <linux/power_supply.h>
 #include <linux/slab.h>
 
-#define USB_VENDOR_ID_RAPOO  0x24ae
-#define USB_DEVICE_ID_RAPOO_VT3_MAX_GEN2 0x1417
+#define USB_VENDOR_ID_RAPOO                 0x24ae
+#define USB_DEVICE_ID_RAPOO_VT3_MAX_GEN2    0x1417
+
+#define RAPOO_BATTERY_REPORT_SIZE           13
+#define RAPOO_BATTERY_CAPACITY_INDEX        8
 
 struct rapoo_data {
     struct hid_device *hdev;
@@ -21,8 +24,8 @@ static int rapoo_raw_event(struct hid_device *hdev, struct hid_report *report, u
         return 0;
     }
 
-    if (size == 13) {
-        int new_capacity = data[8];
+    if (size == RAPOO_BATTERY_REPORT_SIZE) {
+        int new_capacity = data[RAPOO_BATTERY_CAPACITY_INDEX];
 
         if (rdata->battery_capacity != new_capacity) {
             rdata->battery_capacity = new_capacity;

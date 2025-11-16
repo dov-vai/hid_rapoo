@@ -4,24 +4,55 @@ Battery reporting for Rapoo VT3 MAX Gen-2.
 
 Tested on Fedora Linux 43.
 
+## Prerequisites
 
-# Building
+Install kernel headers and DKMS:
 
-Kernel headers must be installed.
+**Fedora/RHEL:**
+```bash
+sudo dnf install kernel-devel kernel-headers dkms
+```
+
+**Ubuntu/Debian:**
+```bash
+sudo apt install linux-headers-$(uname -r) dkms
+```
+
+**Arch:**
+```bash
+sudo pacman -S linux-headers dkms
+```
+
+## Installation (Recommended - DKMS)
+
+DKMS will automatically rebuild and load the module after kernel updates and on boot.
+
+```bash
+sudo ./install-dkms.sh
+```
+
+To verify installation:
+```bash
+lsmod | grep hid_rapoo
+modinfo hid_rapoo
+```
+
+## Uninstalling (DKMS)
+
+```bash
+sudo ./uninstall-dkms.sh
+```
+
+## Manual Installation (Temporary)
+
+If you want to build and test without DKMS:
 
 ```bash
 make
-```
-
-# Installing
-
-Temporary (DKMS soon):
-```bash
 sudo insmod hid_rapoo.ko
 ```
 
-# Removing
-
+To remove:
 ```bash
 sudo rmmod hid_rapoo
 ```
